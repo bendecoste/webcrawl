@@ -4,12 +4,17 @@ import re
 import urllib2
 import urlparse
 
+#for checking robots.txt files
+import robotparser as rbp
+
 connection = mdb.connect(host="192.168.0.6", user="bendeco", passwd="password", db="crawlbot")
 cursor=connection.cursor()
 tocrawl = set([sys.argv[1]])
 crawled = set([])
+rp = rbp.RobotFileParser()
 keywordregex = re.compile('<meta\sname=["\']keywords["\']\scontent=["\'](.*?)["\']\s/>')
 linkregex = re.compile('<a\s*href=[\'|"](.*?)[\'"].*?>')
+crawlregex = re.compile
 
 while 1:
 	try:
@@ -18,8 +23,20 @@ while 1:
 	except KeyError:
 		raise StopIteration
 	url = urlparse.urlparse(crawling)
+
+	#get website location on www
+	site_url = url.netloc
+	site_url += "/robots.txt"
+	
+	print site_url
 	try:
-		response = urllib2.urlopen(crawling)
+		rp.set_url("http://" + site_url)
+		rp.read()
+		if rp.can_fetch("*", crawling):
+			response = urllib2.urlopen(crawling)
+		else:
+			print "YOU CAN'T GO HERE"
+			continue
 	except:
 		continue
 	msg = response.read()
