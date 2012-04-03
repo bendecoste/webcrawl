@@ -1,20 +1,26 @@
 import sys
-import MySQLdb as mdb
+import traceback
 import re
 import urllib2
 import urlparse
+from webVisit import webVisit
+from DB_comms import DB_comms
 
 #for checking robots.txt files
 import robotparser as rbp
 
-connection = mdb.connect(host="192.168.0.6", user="bendeco", passwd="password", db="crawlbot")
-cursor=connection.cursor()
 tocrawl = set([sys.argv[1]])
 crawled = set([])
 rp = rbp.RobotFileParser()
 keywordregex = re.compile('<meta\sname=["\']keywords["\']\scontent=["\'](.*?)["\']\s/>')
 linkregex = re.compile('<a\s*href=[\'|"](.*?)[\'"].*?>')
 crawlregex = re.compile
+
+#call webVisit class -- used to keep track of visited websites
+visit = webVisit()
+#DB manager
+mdb = DB_comms()
+count = 0;
 
 while 1:
 	try:
@@ -26,14 +32,20 @@ while 1:
 
 	#get website location on www
 	site_url = url.netloc
+
 	site_url += "/robots.txt"
 	
-	print site_url
+	
 	try:
 		rp.set_url("http://" + site_url)
 		rp.read()
 		if rp.can_fetch("*", crawling):
-			response = urllib2.urlopen(crawling)
+			if visit.can_query(url.netloc):
+				response = urllib2.urlopen(crawling)
+				visit.addUrl(url.netloc)
+			else:
+				print 'too many requests to website, skipping'
+				continue
 		else:
 			print "YOU CAN'T GO HERE"
 			continue
@@ -45,11 +57,7 @@ while 1:
 		endPos = msg.find('</title>', startPos+7)
 		if endPos != -1:
 			title = msg[startPos+7:endPos]
-			print title
-			query = "INSERT into Indexed values(\'" + mdb.escape_string(crawling) + "\', \'" + mdb.escape_string(title) + "\')"
-			
-			print query
-			cursor.execute(query)
+			mdb.insert(crawling, title)	
 	keywordlist = keywordregex.findall(msg)
 	if len(keywordlist) > 0:
 		keywordlist = keywordlist[0]
