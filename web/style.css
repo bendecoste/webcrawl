@@ -1,0 +1,115 @@
+
+body{
+
+	background: #ccc;
+
+	margin: 0;
+
+	padding: 0;
+
+}
+
+h1{
+
+	width: 375px;
+
+	padding: 10px;
+
+	margin-left: auto;
+
+	margin-right: auto;
+
+	background: #339;
+
+	font: normal 18px Arial, Helvetica, sans-serif;
+
+	color: #fff;
+
+	border: 1px solid #000;
+
+	text-align: center;
+
+}
+
+h2{
+
+	font: bold 18px Arial, Helvetica, sans-serif;
+
+	color: #339;
+
+}
+
+p{
+
+	font: normal 10pt Arial, Helvetica, sans-serif;
+
+	color: #000;
+
+}
+
+a:link,a:visited {
+
+	font: normal 10pt Arial, Helvetica, sans-serif;
+
+	color: #00f;
+
+	text-decoration: none;
+
+}
+
+a:hover { 
+
+	color: #f00;
+
+	text-decoration: underline;
+
+}
+
+.maincontainer{
+
+	width: 375px;
+
+	padding: 10px;
+
+	margin-left: auto;
+
+	margin-right: auto;
+
+	background: #f0f0f0;
+
+	border: 1px solid #000;
+
+}
+
+.rowcontainer{
+
+	padding: 10px;
+
+	margin-bottom: 10px;
+
+	background: #ccf;
+
+}
+
+.searchbox{
+
+	width: 200px;
+
+	font: normal 12px Arial, Helvetica, sans-serif;
+
+	color: #000;
+
+}
+
+.searchbutton{
+
+	width: 80px;
+
+	font: bold 12px Arial, Helvetica, sans-serif;
+
+	color: #000;
+
+}
+
+
+
