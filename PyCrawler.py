@@ -30,7 +30,7 @@ count = 0;
 while 1:
 	try:
 		crawling = tocrawl.get()
-		print crawling
+		#print crawling
 	except KeyError:
 		raise StopIteration
 	url = urlparse.urlparse(crawling)
@@ -75,14 +75,16 @@ while 1:
 	links = linkregex.findall(msg)
 	crawled.add(crawling)
 	for link in (links.pop(0) for _ in xrange(len(links))):
-		link_from_page = visit.parsed_url(link)
-		if not link_from_page is visit.parsed_url(crawling):
-			mdb.insert_auth(link_from_page, title)
 		if link.startswith('/'):
 			link = 'http://' + url[1] + link
 		elif link.startswith('#'):
 			link = 'http://' + url[1] + url[2] + link
 		elif not link.startswith('http'):
 			link = 'http://' + url[1] + '/' + link
+#		link_from_page = urlparse.urlparse(link)
+#		link_from_page = visit.parsed_url(link_from_page.netloc)
+#		on_page = urlparse.urlparse(crawling)
+#		if not link_from_page is visit.parsed_url(on_page.netloc):
+#			mdb.insert_auth(link_from_page, title)
 		if link not in crawled:
 			tocrawl.put(link)

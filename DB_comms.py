@@ -16,14 +16,15 @@ class DB_comms:
 
 	def insert_auth(self, url, title):
 		query = "SELECT COUNT(domain) FROM Auth WHERE domain = '"
-		query += "" + url +"'"				
+		query += "" + mdb.escape_string(url) +"'"				
 		self.cursor.execute(query)
 		num = self.cursor.fetchone()		
-		if num > 0:
+
+		if num[0] > 0:
 			query = "UPDATE Auth SET counter=counter+1 WHERE "
-			query += "domain = '" + url + "'"
+			query += "domain = '" + mdb.escape_string(url) + "'"
 			self.cursor.execute(query)		
 		else:
 			query = "INSERT INTO Auth (domain, title) "
-			query += "VALUES(" + url + "," + title + ")"
+			query += "VALUES('" + mdb.escape_string(url) + "', '" + mdb.escape_string(title) + "')"
 			self.cursor.execute(query)

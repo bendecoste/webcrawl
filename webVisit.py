@@ -53,8 +53,8 @@ class webVisit:
 		for urls, count in self.urlTable.items():
 			if count == 0:
 				del self.urlTable[urls]
+		for urls in self.urlTable:
 			self.urlTable[urls] = 0
-
 
 
 
