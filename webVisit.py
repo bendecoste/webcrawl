@@ -7,7 +7,7 @@ from datetime import datetime
 class webVisit:
 	def __init__(self):
 		self.urlTable = defaultdict(int) 
-		self.CONST_THRESHOLD = 2
+		self.CONST_THRESHOLD = 3
 		self.timeLapse = None
 		self.time = None
 
@@ -38,7 +38,7 @@ class webVisit:
 		if self.time is None:
 			self.time = datetime.now().second
 			self.timeLapse = datetime.now().second
-		if self.timeLapse - self.time >= 10 or self.time - self.timeLapse >= 10:
+		if self.timeLapse - self.time >= 5 or self.time - self.timeLapse >= 5:
 			self.time = datetime.now().second
 			self.timeLapse = datetime.now().second
 			self.reset_list()

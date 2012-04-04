@@ -9,7 +9,7 @@ class DB_comms:
 		self.visit = webVisit()	
 
 	def insert(self, url, title):
-		query = "INSERT IGNORE into Indexed values"
+		query = "INSERT IGNORE into Indexed (title, url) values"
 		query += "(\'" + mdb.escape_string(title) + "\', \'" 
 		query += mdb.escape_string(url) + "\')"	
 		self.cursor.execute(query)
